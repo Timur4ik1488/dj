@@ -2,12 +2,12 @@ networks:
   dev:
 
 services:
-  backend:
-    build:
-      context: ./Backend/back
-      dockerfile: Dockerfile
-    networks:
-      - dev
+  # backend:
+  #   build:
+  #     context: ./Backend/back
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - dev
 
   frontend:
     build:
@@ -23,7 +23,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - backend
+      # - backend
       - frontend
     networks:
       - dev
