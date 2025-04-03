@@ -2,12 +2,23 @@ networks:
   dev:
 
 services:
-  # backend:
-  #   build:
-  #     context: ./Backend/back
-  #     dockerfile: Dockerfile
-  #   networks:
-  #     - dev
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - production_db_volume:/var/lib/mysql
+    env_file:
+      - .live.env
+  backend:
+    build:
+      context: ./Backend/back
+      dockerfile: Dockerfile
+    networks:
+      - dev
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -15,6 +26,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - dev
+    depends_on:
+      - db
 
   nginx:
     image: nginx:stable-alpine
@@ -27,5 +40,6 @@ services:
       - frontend
     networks:
       - dev
+
   
   
